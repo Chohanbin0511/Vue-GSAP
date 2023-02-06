@@ -1,15 +1,15 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router';
 
 const otherRoutes = [
-  {
-    path: "/",
-    name: "Home",
-    meta: { authLevel: 0 },
-    component: () => import("@/views/signIn/SignInView.vue"),
-    // beforeEnter: (to) => {
-    //   return isTokenExpire(false, to);
-    // },
-  },
+	{
+		path: '/',
+		name: 'Home',
+		meta: { authLevel: 0 },
+		component: () => import('@/views/signIn/SignInView.vue'),
+		// beforeEnter: (to) => {
+		//   return isTokenExpire(false, to);
+		// },
+	},
 ];
 
 let allRoutes = [];
@@ -18,8 +18,8 @@ allRoutes = allRoutes.concat(otherRoutes);
 const routes = allRoutes;
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
+	history: createWebHistory(),
+	routes,
 });
 
 // router.beforeEach((to, from, next) => {
