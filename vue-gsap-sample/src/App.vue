@@ -9,11 +9,13 @@
 			<div class="box purple">purple</div>
 			<div class="box blue">blue</div>
 		</div> -->
-	<MatchMediaGSAP></MatchMediaGSAP>
+	<!-- <MatchMediaGSAP></MatchMediaGSAP> -->
+	<MatchMediaGSAP2></MatchMediaGSAP2>
 </template>
 
 <script setup>
-import MatchMediaGSAP from './components/MatchMediaGSAP.vue';
+// import MatchMediaGSAP from './components/MatchMediaGSAP.vue';
+import MatchMediaGSAP2 from './components/MatchMediaGSAP2.vue';
 </script>
 
 <style></style>

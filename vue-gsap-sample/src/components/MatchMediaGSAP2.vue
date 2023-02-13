@@ -1,37 +1,23 @@
 <template>
-	<h2>Match Media GSAP</h2>
-	<header class="center pad-l">
-		<h1>gsap.matchMedia()</h1>
-		<p class="lead">
-			Use matchMedia for easy, accessibility friendly animation.
-		</p>
-	</header>
-
-	<section class="gray">
-		<div class="box"></div>
+	<section>
+		<div class="bg"></div>
+		<h1>Simple parallax sections</h1>
 	</section>
-	<section class="gray">
-		<div class="mobile">Mobile</div>
-		<div class="desktop">Desktop</div>
+	<section>
+		<div class="bg"></div>
+		<h1>Hey look, a title</h1>
 	</section>
-
-	<section class="bottom">
-		<p><strong>Pretty cool, right?</strong></p>
-		<p>
-			You can read more about reduced motion and vestibular disorders in this
-			<a href="https://css-tricks.com/introduction-reduced-motion-media-query/"
-				>blog post</a
-			>
-			on CSS tricks
-		</p>
-		<p>
-			How do I
-			<a
-				href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion#user_preferences"
-				>adjust my reduced motion setting?</a
-			>
-		</p>
-		<p>Check out <a href="https://greensock.com">GSAP</a> today.</p>
+	<section>
+		<div class="bg"></div>
+		<h1>They just keep coming</h1>
+	</section>
+	<section>
+		<div class="bg"></div>
+		<h1>So smooth though</h1>
+	</section>
+	<section>
+		<div class="bg"></div>
+		<h1>Nice, right?</h1>
 	</section>
 </template>
 
@@ -43,44 +29,66 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 onMounted(() => {
 	gsap.registerPlugin(ScrollTrigger);
 
-	let mm = gsap.matchMedia();
+	let getRatio = el =>
+		window.innerHeight / (window.innerHeight + el.offsetHeight);
 
-	mm.add('(prefers-reduced-motion: no-preference)', context => {
-		console.log('context', context);
-		let tl = gsap.timeline({
-			scrollTrigger: {
-				trigger: '.gray',
-				scrub: 1,
-				end: '200%',
-				pin: true,
+	gsap.utils.toArray('section').forEach((section, i) => {
+		section.bg = section.querySelector('.bg');
+
+		// Give the backgrounds some random images
+		section.bg.style.backgroundImage = `url(https://picsum.photos/1600/800?random=${i})`;
+		console.log('backgroundImage', section.bg.style.backgroundImage);
+		// the first image (i === 0) should be handled differently because it should start at the very top.
+		// use function-based values in order to keep things responsive
+		gsap.fromTo(
+			section.bg,
+			{
+				backgroundPosition: () =>
+					i ? `50% ${-window.innerHeight * getRatio(section)}px` : '50% 0px',
 			},
-		});
-		tl.to('.box', { scale: 2 }).to('.box', { scale: 1 });
-
-		gsap.to('.box', {
-			rotation: 360,
-			ease: 'none',
-			duration: 4,
-			repeat: -1,
-		});
-	});
-
-	// a 'reduced' motion animation
-	mm.add('(prefers-reduced-motion: reduce)', context => {
-		console.log('context', context);
-		let tl = gsap.timeline({
-			scrollTrigger: {
-				trigger: '.gray',
-				scrub: 1,
-				end: '200%',
-				pin: true,
+			{
+				backgroundPosition: () =>
+					`50% ${window.innerHeight * (1 - getRatio(section))}px`,
+				ease: 'none',
+				scrollTrigger: {
+					trigger: section,
+					start: () => (i ? 'top bottom' : 'top top'),
+					end: 'bottom top',
+					scrub: true,
+					invalidateOnRefresh: true, // to make it responsive
+				},
 			},
-		});
-		tl.to('.box', { scale: 1.1 }).to('.box', { scale: 1 });
+		);
 	});
 });
 </script>
 
 <style>
-@import url('./../assets/css/style.css');
+/* @import url('./../assets/css/style.css'); */
+section {
+	position: relative;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+h1 {
+	color: white;
+	text-shadow: 1px 1px 3px black;
+	z-index: 1;
+	font-size: 3em;
+	font-weight: 400;
+}
 </style>

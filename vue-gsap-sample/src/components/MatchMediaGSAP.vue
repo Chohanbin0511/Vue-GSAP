@@ -57,6 +57,10 @@ onMounted(() => {
 		});
 		tl.to('.box', { scale: 2 }).to('.box', { scale: 1 });
 
+		// tl.to('.box', { rotation: -270, duration: 1, ease: 'elastic' })
+		// 	.to('.box', { rotation: -360, duration: 1, ease: 'elastic' })
+		// 	.to('.box', { rotation: -180, duration: 1, ease: 'elastic' });
+
 		gsap.to('.box', {
 			rotation: 360,
 			ease: 'none',
